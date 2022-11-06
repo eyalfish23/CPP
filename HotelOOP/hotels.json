@@ -1,0 +1,13 @@
+{
+  "Meridian": {
+    "Stars": 4,
+    "MaxRooms": 20,
+    "RegularRoomBasePricePerNight":100,
+    "LuxuryRoomBasePricePerNight":160,
+    "Rooms": [
+      { "Type": "Regular", "IsBalcony": "N" },
+      { "Type": "Regular",  "IsBalcony": "Y" },
+      { "Type": "Luxury",  "IsJacuzzi": "Y" }
+    ]
+  }
+}
