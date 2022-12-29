@@ -4,6 +4,7 @@ using namespace std;
 
 int main()
 {
+    /*
     srand((unsigned)time(NULL));
     // Initial data
     int i;
@@ -22,5 +23,7 @@ int main()
     hotel->removeRoomById(1);
     hotel->toString();
     delete hotel;
+    */
+    
     return 0;
 }
