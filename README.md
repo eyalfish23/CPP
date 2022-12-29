@@ -1,1 +1,1 @@
-g++ *.cpp -o output && ./output 
+g++ *.cpp -lpthread -o output && ./output 
