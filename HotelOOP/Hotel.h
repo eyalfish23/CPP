@@ -1,6 +1,6 @@
 #ifndef HOTEL_H
 #define HOTEL_H
-#include "Room.h"
+#include "./Room.h"
 #include <cstdlib>
 using namespace std;
 
@@ -45,6 +45,7 @@ public:
     void setLuxuryRoomBasePricePerNight(const int luxuryRoomBasePricePerNight);
     int getLuxuryRoomBasePricePerNight() const;
     void removeRoomById(const int id);
+    Room *getEmptyRoom();
 
 private:
     Room *makeRegularRoom(const int pricePerNight, const bool isBalcony, const int roomId);

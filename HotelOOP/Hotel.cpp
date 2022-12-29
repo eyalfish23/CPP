@@ -1,4 +1,4 @@
-#include "Hotel.h"
+#include "./Hotel.h"
 using namespace std;
 
 Hotel::Hotel(const string name, const int stars, const int maxRooms)
@@ -332,4 +332,25 @@ void Hotel::removeRoomById(const int id)
         ptr = ptr->next;
     }
     cout << "Room number: " << id << " has not been found" << endl;
+}
+
+Room *Hotel::getEmptyRoom()
+{
+    Rooms *ptr = head;
+    if (!isRoomLeft())
+    {
+        //Not available room
+        return NULL;
+    }
+
+    while(ptr!=NULL)
+    {
+        if(ptr->mRoom->getCurrentPersons()==0)
+        {
+            return ptr->mRoom;
+        }
+    }
+
+    //All rooms are occupied
+    return NULL;
 }
