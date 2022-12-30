@@ -337,6 +337,7 @@ void Hotel::removeRoomById(const int id)
 Room *Hotel::getEmptyRoom()
 {
     Rooms *ptr = head;
+
     if (!isRoomLeft())
     {
         //Not available room
@@ -349,6 +350,7 @@ Room *Hotel::getEmptyRoom()
         {
             return ptr->mRoom;
         }
+        ptr=ptr->next;
     }
 
     //All rooms are occupied

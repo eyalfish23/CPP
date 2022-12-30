@@ -174,6 +174,7 @@ void Room::generateVisitorsToRoom()
     int numOfVisitors, i;
 
     numOfVisitors = 1 + (rand() % mMaxPersons);
+
     for (i = 0; i < numOfVisitors; i++)
     {
         if (!addDummyPersonToTail())
@@ -207,7 +208,8 @@ bool Room::addDummyPersonToTail()
         }
         head->mPerson = person;
         head->next = NULL;
-        setCurrentPersons(mCurrentPersons++);
+        mCurrentPersons++;
+        setCurrentPersons(mCurrentPersons);
         setTotalPricePerNight(mTotalPricePerNight + mPricePerNight);
         return true;
     }
@@ -223,7 +225,8 @@ bool Room::addDummyPersonToTail()
     }
     ptr->next->mPerson = person;
     ptr->next->next = NULL;
-    setCurrentPersons(mCurrentPersons++);
+    mCurrentPersons++;
+    setCurrentPersons(mCurrentPersons);
     setTotalPricePerNight(mTotalPricePerNight + mPricePerNight);
     return true;
 }
@@ -249,8 +252,9 @@ bool Room::addPersonToTail()
         }
         head->mPerson = person;
         head->next = NULL;
+        mCurrentPersons++;
         setTotalPricePerNight(mTotalPricePerNight + mPricePerNight);
-        setCurrentPersons(mCurrentPersons++);
+        setCurrentPersons(mCurrentPersons);
         return true;
     }
     while (ptr->next != NULL)
@@ -265,7 +269,8 @@ bool Room::addPersonToTail()
     }
     ptr->next->mPerson = person;
     ptr->next->next = NULL;
-    setCurrentPersons(mCurrentPersons++);
+    mCurrentPersons++;
+    setCurrentPersons(mCurrentPersons);
     setTotalPricePerNight(mTotalPricePerNight + mPricePerNight);
     return true;
 }

@@ -3,14 +3,16 @@
 
 using namespace std;
 
-const int SLEEP_TIME_INTERVAL=5;
+const int SLEEP_TIME_INTERVAL=6;
 
 void *registraion_simulation(void *unused);
 Hotel *init_params(int numOfRooms,string hotelName,int stars,int maxRooms);
 void menu();
 
+/*************  Globals   *****************/
 Hotel *hotel = NULL;
 bool isExit=false;
+pthread_mutex_t mutex;
 
 int main()
 {
@@ -23,6 +25,13 @@ int main()
       return -1;
     }
     
+    //Init mutex for protecting race conditions, and sync data between all threads
+    if(pthread_mutex_init(&mutex,NULL)!=0)
+    {
+      cout<<"Mutex initialization err"<<endl;
+      delete hotel;
+      return -1;
+    }
 
     if(pthread_create(&thread_id,NULL,&registraion_simulation,NULL)!=0)
     {
@@ -37,27 +46,6 @@ int main()
 
     //Resources release
     delete hotel;
-
-    /*
-    srand((unsigned)time(NULL));
-    // Initial data
-    int i;
-    Hotel *hotel = NULL;
-    hotel = new Hotel("Meridian", 4, 20);
-    //for (i = 0; i < 6; i++)
-    //{
-      //  Room *room = hotel->generateRoom();
-       // if (room != NULL)
-        //{
-          //  room->generateVisitorsToRoom();
-        //}
-   // }
-    //hotel->toString();
-    //hotel->removeRoomById(2);
-    //hotel->removeRoomById(1);
-    //hotel->toString();
-    //delete hotel;
-    */
     
     return 0;
 }
@@ -86,6 +74,7 @@ void menu()
     cout<<"Type 0: Exit"<<endl;
 
     cin>>res;
+    pthread_mutex_lock(&mutex);
     if(res==0)
     {
       isExit=true;
@@ -93,6 +82,7 @@ void menu()
     {
       hotel->toString();
     }
+    pthread_mutex_unlock(&mutex);
   } while (!isExit);
   cout<<"Exit menu"<<endl;
   
@@ -104,12 +94,15 @@ void *registraion_simulation(void *unused)
     
     while(!isExit)
     {
+      pthread_mutex_lock(&mutex);
       room=NULL;
       room=hotel->getEmptyRoom();
       if(room!=NULL)
       {
         room->generateVisitorsToRoom();
       }
+      pthread_mutex_unlock(&mutex);
+
       sleep(SLEEP_TIME_INTERVAL);
     }
 
