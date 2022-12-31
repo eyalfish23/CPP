@@ -5,6 +5,8 @@
 using namespace std;
 
 const int DEFAULT_MAX_PERSONS = 6;
+const int MAX_NIGHTS_STAY = 14;
+const int MIN_NIGHTS_STAY = 1;
 
 class Room
 {
@@ -20,12 +22,19 @@ protected:
     int mPricePerNight;      // Base price per night
     int mTotalPricePerNight; // Depend on persons count
     int mRoomId;
+    
+    int mCurrentNight;
+    int mNightsStay;
 
 public:
     Room(const int pricePerNight, const int roomId, const int maxPersons);
     Room(const int pricePerNight, const int roomId);
     ~Room();
     void setPricePerNight(const int pricePerNight);
+    void setNightsStay(const int nightsStay);
+    int getNightsStay() const;
+    void setCurrentNight(const int currentNight);
+    int getCurrentNight() const;
     int getPricePerNight() const;
     void setMaxPersons(const int maxPersons);
     int getMaxPersons() const;
@@ -35,7 +44,7 @@ public:
     int getRoomId() const;
     void setTotalPricePerNight(const int totalPricePerNight);
     int getTotalPricePerNight() const;
-    void addPersonsToRoom(const int num); // Checkin
+    void addPersonsToRoom(const int num,const int nightStays); // Checkin
     void removeAllPersonsFromRoom();      // Checkout
     void generateVisitorsToRoom();
     virtual void toString() = 0;

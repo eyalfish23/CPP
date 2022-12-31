@@ -8,6 +8,8 @@ Room::Room(const int pricePerNight, const int roomId)
     setCurrentPersons(0);
     setTotalPricePerNight(0);
     setMaxPersons(DEFAULT_MAX_PERSONS);
+    setCurrentNight(0);
+    setNightsStay(0);
 }
 
 Room::Room(const int pricePerNight, const int roomId, const int maxPersons)
@@ -17,6 +19,8 @@ Room::Room(const int pricePerNight, const int roomId, const int maxPersons)
     setCurrentPersons(0);
     setTotalPricePerNight(0);
     setMaxPersons(maxPersons);
+    setCurrentNight(0);
+    setNightsStay(0);
 }
 
 Room::~Room()
@@ -81,6 +85,33 @@ int Room::getTotalPricePerNight() const
     return mTotalPricePerNight;
 }
 
+void Room::setNightsStay(const int nightsStay)
+{
+    if(nightsStay>MAX_NIGHTS_STAY)
+    {
+        mNightsStay=MAX_NIGHTS_STAY;
+    }
+    else
+    {
+        mNightsStay=nightsStay;
+    }
+}
+
+int Room::getNightsStay() const
+{
+    return mNightsStay;
+}
+
+void Room::setCurrentNight(const int currentNight)
+{
+    mCurrentNight=currentNight;
+}
+
+int Room::getCurrentNight() const
+{
+    return mCurrentNight;
+}
+
 Person *Room::createDummyPerson()
 {
     int id, age;
@@ -141,10 +172,12 @@ void Room::removeAllPersonsFromRoom()
     head = NULL;
     setCurrentPersons(0);
     setTotalPricePerNight(0);
+    setCurrentNight(0);
+    setNightsStay(0);
 }
 
 // Checkin
-void Room::addPersonsToRoom(const int num)
+void Room::addPersonsToRoom(const int num,const int nightStays)
 {
     int i;
     if (mCurrentPersons != 0)
@@ -167,13 +200,17 @@ void Room::addPersonsToRoom(const int num)
             return;
         }
     }
+
+    setNightsStay(nightStays);
+    setCurrentNight(0);
 }
 
 void Room::generateVisitorsToRoom()
 {
-    int numOfVisitors, i;
+    int numOfVisitors,nightsStay, i;
 
     numOfVisitors = 1 + (rand() % mMaxPersons);
+    nightsStay=MIN_NIGHTS_STAY+(rand()%(MAX_NIGHTS_STAY-1));
 
     for (i = 0; i < numOfVisitors; i++)
     {
@@ -184,6 +221,8 @@ void Room::generateVisitorsToRoom()
             return;
         }
     }
+    setNightsStay(nightsStay);
+    setCurrentNight(0);
 }
 
 bool Room::addDummyPersonToTail()
@@ -297,6 +336,7 @@ void RegularRoom::toString()
     }
     else
     {
+        cout<<"Night stays:"<<mNightsStay<<", Current night:"<<mCurrentNight<<endl;
         cout << "Guests:" << endl;
         while (ptr != NULL)
         {
@@ -329,6 +369,7 @@ void LuxuryRoom::toString()
     }
     else
     {
+        cout<<"Night stays:"<<mNightsStay<<", Current night:"<<mCurrentNight<<endl;
         cout << "Guests:" << endl;
         while (ptr != NULL)
         {
